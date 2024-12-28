@@ -1,0 +1,129 @@
+{
+  "name": "goal-seek-ai",
+  "displayName": "Goal Seek AI",
+  "version": "1.0.0",
+  "description": "Use AI to seek a coding goal (avoid back and forth with LLMs)",
+  "main": "./out/extension.js",
+  "repository": "git@github.com:AlexanderCollins/goal-seek-ai.git",
+  "author": "Alexander Collins <alexcollins010@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.96.0",
+    "node": ">=18.18.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.goalSeekAI",
+    "onCommand:extension.pauseGoalSeek",
+    "onCommand:extension.resumeGoalSeek",
+    "onCommand:extension.resetGoalSeek"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.goalSeekAI",
+        "title": "Goal Seek AI: Start"
+      },
+      {
+        "command": "extension.pauseGoalSeek",
+        "title": "Goal Seek AI: Pause"
+      },
+      {
+        "command": "extension.resumeGoalSeek",
+        "title": "Goal Seek AI: Resume"
+      },
+      {
+        "command": "extension.resetGoalSeek",
+        "title": "Goal Seek AI: Reset"
+      }
+    ],
+    "configuration": {
+      "title": "Goal Seek AI",
+      "properties": {
+        "goalSeekAI.maxIterations": {
+          "type": "number",
+          "default": 10,
+          "description": "Maximum number of iterations to attempt"
+        },
+        "goalSeekAI.temperature": {
+          "type": "number",
+          "default": 0.2,
+          "description": "Temperature setting for GPT model"
+        },
+        "goalSeekAI.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "GPT model to use"
+        },
+        "goalSeekAI.successPatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Patterns that indicate success in command output"
+        },
+        "goalSeekAI.errorPatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "error",
+            "Error",
+            "exception",
+            "Exception",
+            "failed",
+            "Failed"
+          ],
+          "description": "Patterns that indicate errors in command output"
+        },
+        "goalSeekAI.checkExitCode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to check command exit codes"
+        },
+        "goalSeekAI.saveHistory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Save iteration history"
+        },
+        "goalSeekAI.historyPath": {
+          "type": "string",
+          "default": ".goal-seek-history",
+          "description": "Path to save iteration history"
+        },
+        "goalSeekAI.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key (or set via OPENAI_API_KEY env variable)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn compile && yarn lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "@vscode/vsce": "2.15.0",
+    "eslint": "^9.17.0",
+    "typescript": "^5.7.2",
+    "vsce": "^2.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.9"
+  }
+}
